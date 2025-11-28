@@ -1,8 +1,8 @@
- {
-      "builds": [
+    {
+      "routes": [
         {
-          "src": "api/index.js", // Path to your backend entry file
-          "use": "@vercel/node"
+          "src": "/api/(.*)", // Matches any request starting with /api
+          "dest": "/api/index.js" // Routes it to your backend entry file
         }
       ]
     }
