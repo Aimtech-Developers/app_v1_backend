@@ -1,4 +1,4 @@
-  // index.js
+// index.js
 const express = require('express');
 const cors = require('cors');
 const db = require('./config/db_conn');
@@ -91,7 +91,6 @@ const chartDataApi = require('./routes/chart_data');
 const calendarattendance = require('./routes/calendar-attendance');
 const smsDeviceRoutes = require('./routes/smsDeviceRoutes');
 const whiteboardCmsApi = require('./routes/whiteboard_cms_api');
-const auditLogRoutes = require('./routes/audit_log_api');
 const demandLettersRouter = require('./routes/demandLetters');
 const teacherInfoApi = require('./routes/teacher_inform_api');
 const studentInformationRouter = require('./routes/student_information');
@@ -169,7 +168,11 @@ app.use('/api/chart-data', chartDataApi);
 app.use('/api/calendar-attendance', calendarattendance);
 app.use('/api/sms-device', smsDeviceRoutes);
 app.use('/api/whiteboard-cms', whiteboardCmsApi);
-// auditLogRoutes not mounted originally – keeping same behavior
+
+// ✅ Audit log removed as requested (no require + no mount)
+// const auditLogRoutes = require('./routes/audit_log_api');
+// app.use('/api/audit-log', auditLogRoutes);
+
 app.use('/api/demand-letters', demandLettersRouter);
 app.use('/api/teacher-info', teacherInfoApi);
 app.use('/api/student-information', studentInformationRouter);
@@ -197,7 +200,7 @@ app.get('/health', (_req, res) => {
 db.query('SELECT NOW()')
   .then(({ rows }) => {
     console.log('✅ Connected to Postgres at', rows[0].now);
-    // Important: bind to 0.0.0.0 so 192.168.31.114 also works
+    // Important: bind to 0.0.0.0 so LAN also works
     app.listen(PORT, '0.0.0.0', () => {
       console.log('🚀 Server listening on:');
       console.log(`   → http://localhost:${PORT}`);
